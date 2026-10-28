@@ -18,6 +18,7 @@ export class DogRenderer {
   private ctx: CanvasRenderingContext2D;
   private width: number = 220;
   private height: number = 240;
+  private dpr: number = 1;
 
   // Animation parameters
   private state: PetAnimationState = 'idle';
