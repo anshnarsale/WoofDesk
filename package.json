@@ -1,39 +1,6 @@
 {
   "name": "desktop-pet-dog",
   "version": "1.0.0",
-  "description": "A cute, interactive, floating desktop pet dog for Windows 11 with daily productivity features.",
-  "main": "dist/main/main.js",
-  "author": "Antigravity",
-  "license": "MIT",
-  "scripts": {
-    "build": "node scripts/build.js",
-    "start": "node scripts/build.js && node scripts/start.js",
-    "package:dir": "node scripts/build.js && electron-builder --win --dir",
-    "package:portable": "node scripts/build.js && electron-builder --win portable"
-  },
-  "build": {
-    "appId": "com.desktop.petdog",
-    "productName": "Desktop Pet Dog",
-    "directories": {
-      "output": "release"
-    },
-    "win": {
-      "target": [
-        "dir",
-        "portable"
-      ],
-      "icon": "assets/icon.png"
-    },
-    "files": [
-      "dist/**/*",
-      "assets/**/*",
-      "package.json"
-    ]
-  },
-  "devDependencies": {
-    "@types/node": "^22.13.0",
-    "electron": "^24.22.1",
-    "electron-builder": "^24.13.3",
-    "typescript": "^5.7.3"
-  }
+  "description": "A cute interactive desktop pet dog for Windows 11",
+  "private": true
 }
