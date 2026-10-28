@@ -62,6 +62,7 @@ export class PetWindowManager {
       resizable: false,
       hasShadow: false,
       focusable: false, // Prevents stealing keyboard focus when interacting!
+      show: true,
       webPreferences: {
         preload: path.join(__dirname, '../preload/petPreload.js'),
         contextIsolation: true,
@@ -70,11 +71,18 @@ export class PetWindowManager {
       },
     });
 
-    this.window.setAlwaysOnTop(true, 'screen-saver');
+    this.window.setAlwaysOnTop(true, 'floating');
     this.window.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: false });
+
+    this.window.once('ready-to-show', () => {
+      this.window?.showInactive();
+    });
 
     // Load pet HTML
     this.window.loadFile(path.join(__dirname, '../renderer/pet/index.html'));
+
+    // Show window immediately
+    this.window.showInactive();
 
     // Apply click-through if configured
     if (this.store.getSettings().clickThrough) {
