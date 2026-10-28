@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; img-src 'self' data:; style-src 'self' 'unsafe-inline';">
+  <title>Buddy Desktop Companion</title>
+  <link rel="stylesheet" href="companion.css">
+</head>
+<body>
+  <div id="windowFrame">
+    <!-- Window Titlebar -->
+    <div id="titlebar">
+      <div class="title-info">
+        <span>🐕</span>
+        <span>Buddy · Desktop Companion</span>
+      </div>
+      <div class="window-controls">
+        <button id="btnClose" class="win-btn close-btn" title="Close">✕</button>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div id="tabNav">
+      <button class="tab-btn active" data-tab="actions">🐾 Actions</button>
+      <button class="tab-btn" data-tab="pomodoro">⏱️ Focus</button>
+      <button class="tab-btn" data-tab="tasks">✅ Tasks</button>
+      <button class="tab-btn" data-tab="reminders">⏰ Reminders</button>
+      <button class="tab-btn" data-tab="notes">📝 Notes</button>
+      <button class="tab-btn" data-tab="settings">⚙️ Settings</button>
+    </div>
+
+    <!-- Main Content Area -->
+    <div id="tabContent">
+      <!-- 1. ACTIONS TAB -->
+      <div id="panel-actions" class="tab-panel active">
+        <div class="card">
+          <div class="card-title">
+            <span>🐕 Buddy's Status</span>
+            <span id="petMoodBadge" style="font-size: 11.5px; color: var(--accent); font-weight: normal;">Happy & Playful</span>
+          </div>
+          <div class="stat-row">
+            <div class="stat-label-group">
+              <span>🍗 Hunger</span>
+              <span id="valHunger">85%</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div id="barHunger" class="progress-bar-fill fill-hunger" style="width: 85%;"></div>
+            </div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-label-group">
+              <span>💖 Happiness</span>
+              <span id="valHappiness">90%</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div id="barHappiness" class="progress-bar-fill fill-happiness" style="width: 90%;"></div>
+            </div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-label-group">
+              <span>⚡ Energy</span>
+              <span id="valEnergy">95%</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div id="barEnergy" class="progress-bar-fill fill-energy" style="width: 95%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Interactive Actions</div>
+          <div class="action-grid">
+            <button id="btnFeed" class="btn">
+              <span>🦴</span>
+              <span>Feed Treat</span>
+            </button>
+            <button id="btnPlay" class="btn">
+              <span>🎾</span>
+              <span>Play Ball</span>
+            </button>
+            <button id="btnSleep" class="btn">
+              <span>💤</span>
+              <span>Take a Nap</span>
+            </button>
+            <button id="btnTogglePause" class="btn">
+              <span id="pauseIcon">⏸️</span>
+              <span id="pauseText">Pause Walk</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Quick Size</div>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn btn-size" data-size="small" style="flex: 1;">Small (170px)</button>
+            <button class="btn btn-size" data-size="medium" style="flex: 1;">Medium (230px)</button>
+            <button class="btn btn-size" data-size="large" style="flex: 1;">Large (290px)</button>
+          </div>
+        </div>
+
+        <div class="card" style="display: flex; justify-content: space-around; text-align: center;">
+          <div>
+            <div id="statTreats" style="font-size: 20px; font-weight: 700; color: var(--accent);">0</div>
+            <div style="font-size: 11px; color: var(--text-muted);">Treats Given</div>
+          </div>
+          <div>
+            <div id="statTasks" style="font-size: 20px; font-weight: 700; color: #107C41;">0</div>
+            <div style="font-size: 11px; color: var(--text-muted);">Tasks Finished</div>
+          </div>
+          <div>
+            <div id="statSessions" style="font-size: 20px; font-weight: 700; color: #0078D4;">0</div>
+            <div style="font-size: 11px; color: var(--text-muted);">Focus Sessions</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. POMODORO TAB -->
+      <div id="panel-pomodoro" class="tab-panel">
+        <div class="card pomodoro-display">
+          <div id="timerModeBadge" class="timer-badge">🍅 Focus Session</div>
+          <div id="timerDigits" class="timer-digits">25:00</div>
+          <div id="timerStatusMsg" style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">Buddy is resting quietly with you 🐾</div>
+          <div class="timer-controls">
+            <button id="btnTimerToggle" class="btn btn-primary" style="padding: 10px 24px; font-size: 14px;">
+              <span>▶️ Start Focus</span>
+            </button>
+            <button id="btnTimerReset" class="btn" style="padding: 10px 16px;">
+              <span>🔄 Reset</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Timer Preset</div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span style="font-size: 12.5px;">Focus Duration:</span>
+            <select id="selFocusDuration" class="select">
+              <option value="15">15 Minutes</option>
+              <option value="25" selected>25 Minutes</option>
+              <option value="45">45 Minutes</option>
+              <option value="60">60 Minutes</option>
+            </select>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 12.5px;">Break Duration:</span>
+            <select id="selBreakDuration" class="select">
+              <option value="5" selected>5 Minutes</option>
+              <option value="10">10 Minutes</option>
+              <option value="15">15 Minutes</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="card" style="display: flex; align-items: center; justify-content: space-between;">
+          <span style="font-size: 12.5px;">Completed Today:</span>
+          <span id="badgeTodaySessions" style="font-weight: 700; color: var(--accent);">0 sessions</span>
+        </div>
+      </div>
+
+      <!-- 3. TASKS TAB -->
+      <div id="panel-tasks" class="tab-panel">
+        <div class="input-group">
+          <input type="text" id="inputNewTask" class="input-text" placeholder="Add a new task (press Enter)...">
+          <button id="btnAddTask" class="btn btn-primary">Add</button>
+        </div>
+        <div class="card">
+          <div class="card-title">
+            <span>Today's Tasks</span>
+            <span id="taskCountBadge" style="font-size: 11.5px; color: var(--text-muted); font-weight: normal;">0 items</span>
+          </div>
+          <div id="taskList" class="item-list"></div>
+        </div>
+      </div>
+
+      <!-- 4. REMINDERS TAB -->
+      <div id="panel-reminders" class="tab-panel">
+        <div class="card">
+          <div class="card-title">Add Reminder</div>
+          <input type="text" id="inputReminderText" class="input-text" style="width: 100%; margin-bottom: 8px;" placeholder="Reminder e.g. Drink water, Stretch...">
+          <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 6px;">Remind in:</div>
+          <div style="display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap;">
+            <button class="btn chip-time" data-minutes="10">+10 min</button>
+            <button class="btn chip-time" data-minutes="20">+20 min</button>
+            <button class="btn chip-time" data-minutes="30">+30 min</button>
+            <button class="btn chip-time" data-minutes="60">+1 hour</button>
+          </div>
+          <button id="btnAddReminder" class="btn btn-primary" style="width: 100%;">Create Reminder</button>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Active Reminders</div>
+          <div id="reminderList" class="item-list"></div>
+        </div>
+      </div>
+
+      <!-- 5. NOTES TAB -->
+      <div id="panel-notes" class="tab-panel">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <select id="selNoteSelect" class="select" style="flex: 1; margin-right: 8px;"></select>
+          <button id="btnNewNote" class="btn">➕ New</button>
+        </div>
+        <div class="card">
+          <input type="text" id="inputNoteTitle" class="input-text" style="width: 100%; margin-bottom: 8px; font-weight: 600;" placeholder="Note title...">
+          <textarea id="areaNoteContent" class="textarea" placeholder="Write your quick thoughts or scratchpad notes here..."></textarea>
+          <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 10px;">
+            <button id="btnDeleteNote" class="btn btn-danger">Delete</button>
+            <button id="btnSaveNote" class="btn btn-primary">Save Note</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. SETTINGS TAB -->
+      <div id="panel-settings" class="tab-panel">
+        <div class="card">
+          <div class="card-title">Desktop Pet Settings</div>
+
+          <div class="setting-row">
+            <div class="setting-info">
+              <span class="setting-title">Pet Size</span>
+              <span class="setting-desc">Scale on your Windows screen</span>
+            </div>
+            <select id="selSettingSize" class="select">
+              <option value="small">Small (170px)</option>
+              <option value="medium">Medium (230px)</option>
+              <option value="large">Large (290px)</option>
+            </select>
+          </div>
+
+          <div class="setting-row">
+            <div class="setting-info">
+              <span class="setting-title">Movement Frequency</span>
+              <span class="setting-desc">How often Buddy wanders around</span>
+            </div>
+            <select id="selSettingMovement" class="select">
+              <option value="stay_put">Stay Put (Stationary)</option>
+              <option value="rare">Rarely</option>
+              <option value="normal">Normal</option>
+              <option value="frequent">Frequently</option>
+            </select>
+          </div>
+
+          <div class="setting-row">
+            <div class="setting-info">
+              <span class="setting-title">Animation Speed</span>
+              <span class="setting-desc">Movement and trot pace</span>
+            </div>
+            <select id="selSettingSpeed" class="select">
+              <option value="relaxed">Relaxed</option>
+              <option value="normal">Normal</option>
+              <option value="energetic">Energetic</option>
+            </select>
+          </div>
+
+          <div class="setting-row">
+            <div class="setting-info">
+              <span class="setting-title">Sound Effects</span>
+              <span class="setting-desc">Barks, chimes, and celebration fanfare</span>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="chkSettingSound">
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="setting-row">
+            <div class="setting-info">
+              <span class="setting-title">Quiet Mode</span>
+              <span class="setting-desc">Silence pet during meetings / focus</span>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="chkSettingQuiet">
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="setting-row">
+            <div class="setting-info">
+              <span class="setting-title">Click-Through Mode</span>
+              <span class="setting-desc">Ignore clicks so pet doesn't block apps</span>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="chkSettingClickThrough">
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="setting-row">
+            <div class="setting-info">
+              <span class="setting-title">Launch on Startup</span>
+              <span class="setting-desc">Start companion when Windows boots</span>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="chkSettingStartup">
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="card" style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-size: 12.5px; color: var(--text-muted);">Desktop Pet Dog v1.0</span>
+          <button id="btnQuitApp" class="btn btn-danger">Exit Pet App</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="companionMain.js"></script>
+</body>
+</html>
