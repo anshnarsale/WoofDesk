@@ -44,8 +44,17 @@ if (!gotTheLock) {
     // Create Pet Window
     petManager.create();
 
-    // Create Companion Window (hidden initially unless configured otherwise)
+    // Create Companion Window and show it initially
     companionManager.create();
+    setTimeout(() => {
+      const petWin = petManager.getWindow();
+      if (petWin) {
+        const bounds = petWin.getBounds();
+        companionManager.show(bounds.x, bounds.y);
+      } else {
+        companionManager.show();
+      }
+    }, 700);
 
     // Create Tray Icon
     trayManager.create();
