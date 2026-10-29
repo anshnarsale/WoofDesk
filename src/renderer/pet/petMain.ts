@@ -73,20 +73,24 @@ class PetApp {
 
   private setupCanvasSize(): void {
     const dpr = window.devicePixelRatio || 1;
-    const width = window.innerWidth;
-    const height = window.innerHeight;
+    const width = window.innerWidth > 50 ? window.innerWidth : 230;
+    const height = window.innerHeight > 50 ? window.innerHeight : 245;
 
-    this.canvas.width = width * dpr;
-    this.canvas.height = height * dpr;
+    this.canvas.width = Math.round(width * dpr);
+    this.canvas.height = Math.round(height * dpr);
     this.canvas.style.width = `${width}px`;
     this.canvas.style.height = `${height}px`;
 
+    this.ctx.setTransform(1, 0, 0, 1, 0, 0);
     this.ctx.scale(dpr, dpr);
     this.renderer.setDimensions(width, height);
   }
 
   private setupEvents(): void {
     window.addEventListener('resize', () => {
+      this.setupCanvasSize();
+    });
+    window.addEventListener('load', () => {
       this.setupCanvasSize();
     });
 
@@ -229,6 +233,10 @@ class PetApp {
   private renderLoop(timestamp: number): void {
     const dt = Math.min((timestamp - this.lastTime) / 1000, 0.1);
     this.lastTime = timestamp;
+
+    if (window.innerWidth > 50 && (this.canvas.width === 0 || this.canvas.style.width !== `${window.innerWidth}px`)) {
+      this.setupCanvasSize();
+    }
 
     this.animMachine.update(dt);
     this.renderer.update(dt);
